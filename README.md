@@ -6,9 +6,8 @@
     * Functions
     * Closures
     * Function Scope
-    * Unterschiede zu Java
-    * Async, Event Loop, Promises
     * ES6? Modules, classes, generators...
+* Async, Event Loop, Promises
 * Dependency Management
     * Bower
     * requirejs
