@@ -47,9 +47,10 @@
 			<div class="slides">
 				<section>
 					<h4>Frontend Development 101</h4>
-					<h1>Lesson 1: Javascript — The Language</h1>
+					<h1>Lesson 1</h1>
+					<h3>Javascript — The Language</h3>
 					<p>
-						<small><a href="mailto:nikolaus.piccolotto@zalando.de">Nikolaus Piccolotto</a></small>
+						<small>by <a href="mailto:nikolaus.piccolotto@zalando.de">Nikolaus Piccolotto</a></small>
 					</p>
 				</section>
 
@@ -122,9 +123,9 @@
 						<ul>
 							<li>Variables &amp; Types</li>
                             <li>Comparison Fun</li>
+                            <li>Operators</li>
                             <li>Functions</li>
                             <li>Inheritance</li>
-                            <li>Async</li>
 						</ul>
 					</p>
 
@@ -163,7 +164,7 @@ var z;
 var str = "whoo";
 // number
 var π = 3.14;
-var r = 2;
+var r = -2;
 // boolean
 var js = true;
 							</code>
@@ -320,25 +321,9 @@ false <= true   // true
                     </section>
 
                     <section>
-                        <h2>Compare yourself</h2>
-                        <input
-                            id="line"
-                            type="text"/>
-                        <button
-                            id="evalBtn"
-                            class="btn">Evaluate</button>
-                        <div id="result">
-                            
-                        </div>
-                        <script type="text/javascript">
-                            function compare() {
-                                var $result = document.getElementById("result"),
-                                    $line = document.getElementById("line");
-
-                                $result.textContent = eval( $line.value );
-                            }
-                            document.getElementById("evalBtn").addEventListener("click", compare);
-                        </script>
+                        <h1>WAIT</h1>
+                        <p>Q: So... Complex Types are compared by reference. How do you check objects and arrays for equality?</p>
+                        <p>A: You iterate over their content and compare those. That's a potentially expensive operation though.</p>
                     </section>
 
                     <section>
@@ -392,6 +377,102 @@ truthy({})  // true
                         </p>
                     </section>
 
+                    <section>
+                    	<h2>Homework</h2>
+                    	<p>
+                    		<ul>
+                    			<li>Implement <code>fizzbuzz.js</code></li>
+                    		</ul>
+                    	</p>
+                    </section>
+
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Operators</h1>
+                    </section>
+
+                    <section>
+                        <h2>Arithmetic Operators</h2>
+                        <pre>
+                            <code class="hljs javascript">
+3 + 3   // 6
+3 * 3   // 9
+3 - 3   // 0
+3 / 3   // 1
+7 % 3   // 1
+
+// type coercion :-/
+
+"3" / true  // 3
+3 * null    // 0
+
+// if one side of + isn't a number, it will do concatenation
+3 + "3"     // "33"
+3 + []      // "3"
+// but none of the others
+3 - "3"     // 0
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Logical Operators</h2>
+                        <pre>
+                            <code class="hljs javascript">
+// AND
+true && false   // false
+// OR
+true || false   // true
+
+// AND returns the first falsy value or, if unavailable, the last
+var arr = [],
+    b = arr.length && arr;  // b is either 0 or the array
+
+// OR returns the first truthy value or, if unavailble, the last
+var variable = preferredValue || defaultValue;    // pretty common
+
+// thus: NO TYPE COERCION
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Bitwise Operators</h2>
+                        <p>
+                            <small>(Seldom needed, but for completeness' sake.)</small>
+                        </p>
+                        <pre>
+                            <code class="hljs javascript">
+// AND
+3 & 2   // 2
+// OR
+2 | 1   // 3
+// XOR
+6 ^ 5   // 3
+                            </code>
+                        </pre>
+                    </section>
+                    
+                    <section>
+                        <h2>Takeaway</h2>
+                        <p>
+                            Please do not rely on Type Coercion.
+                        </p>
+                    </section>
+
+                    <section>
+                    	<h2>Homework</h2>
+                    	<p>
+                    		Write a function that returns the first <code>n</code> Fibonacci numbers.
+                    	</p>
+                    	<pre>
+                    		<code class="hljs javascript">
+fibonacci( 6 ); // [ 1, 1, 2, 3, 5, 8 ]
+                    		</code>
+                    	</pre>
+                    </section>
                 </section>
 
                 <!-- FUNCTIONS -->
@@ -517,6 +598,18 @@ second([1, 2, 3]);
                             If you can do it with a function, you should.
                         </p>
                     </section>
+
+					<section>
+						<h2>Homework</h2>
+						<p>
+							Extend the previous <code>fibonacci</code> function so that it returns the sum of the even numbers.
+						</p>
+						<pre>
+							<code class="hljs javascript">
+evenFibonacciSum( 6 ); 	// = 2 + 8 = 10
+							</code>
+						</pre>
+					</section>
                     
                 </section>
 
@@ -640,6 +733,43 @@ tiny.speak()    // unnamed: beep
 
                 </section>
 
+                <section>
+                	<section>
+                		<h1>Summary</h1>
+                	</section>
+                	<section>
+                		<h2>Things you need</h2>
+                		<p>
+                			<ul>
+                				<li>Arrays, objects, strings, numbers, booleans</li>
+                				<li><code>===</code> and <code>!==</code></li>
+                				<li>Arithmetic &amp; Logical Operators</li>
+                				<li>Functions</li>
+                			</ul>
+                		</p>
+                	</section>
+                	<section>
+                		<h2>Things you do not need</h2>
+                		<p>
+                			<ul>
+                				<li>Type Coercion</li>
+                				<li>Automatic Semicolon Insertion</li>
+                			</ul>
+                		</p>
+                	</section>
+                	<section>
+                		<h2>Things you should know about regardless</h2>
+                		<p>
+                			<ul>
+                				<li>Prototypes</li>
+                			</ul>
+                		</p>
+                	</section>
+                </section>
+
+                <section>
+                	<h1>Questions</h1>
+                </section>
 			</div>
 
 		</div>
@@ -657,7 +787,7 @@ tiny.speak()    // unnamed: beep
 				history: true,
 				center: true,
 
-				theme: 'moon', // available themes are in /css/theme
+				theme: 'blood', // available themes are in /css/theme
 				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Parallax scrolling
