@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Lesson 01</title>
+		<title>FEdev101 - Lesson 01</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
@@ -16,6 +16,7 @@
 
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+        <link rel="stylesheet" href="css/custom.css">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -31,21 +32,7 @@
 			}
 		</script>
 
-		<style>
-			p > code,
-            div > code,
-            li > code {
-                background-color: white;
-                color: #333;
-                border-radius: 3px;
-            }
-
-            .reveal p + p,
-            .reveal p + pre,
-            .reveal ul + p {
-                margin-top: 1em;
-            }
-		</style>
+		
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -66,8 +53,32 @@
 					</p>
 				</section>
 
+                <section>
+                    <h2>Lessons</h2>
+                    <p>
+                        <ol>
+                            <li>Javascript—The Language</li>
+                            <li>Event Loop &amp; Asynchronous Operations</li>
+                            <li>DOM Manipulation</li>
+                            <li>Organizing your code or "why Javascript is a mess"</li>
+                            <li>Building Javascript</li>
+                            <li>Common Performance Optimizations</li>
+                            <li>Frameworks—Angular</li>
+                            <li>Frameworks—React</li>
+                            <li>Server-side Javascript</li>
+                        </ol>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Goal of this series</h2>
+                    <p>
+                        To not teach you everything, but a <strong>usable subset of Javascript</strong> along with <strong>basic concepts</strong> that will help you understand answers on StackOverflow.
+                    </p>
+                </section>
+
 				<section>
-					<h2>Pro-Tips</h2>
+					<h2>Pro-Tip</h2>
 					<p>
 						Get a Node REPL:
 						<pre>
@@ -95,6 +106,12 @@
                             <li>
                                 <a href="https://developer.mozilla.org">Mozilla Developer Network</a>
                             </li>
+                            <li>
+                                <a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">What the fuck is the Event Loop anyway? (video)</a>
+                            </li>
+                            <li>
+                                <a href="http://webreflection.blogspot.de/2010/10/javascript-coercion-demystified.html">Type Coercion Rules</a>
+                            </li>
                         </ul>
                     </p>
                 </section>
@@ -119,7 +136,7 @@
                 <!-- VARIABLES -->
 				<section>
 					<section>
-						<h2>Variables</h2>
+						<h1>Variables</h1>
 						<p>
 							<pre>
 								<code class="hljs javascript">
@@ -139,17 +156,16 @@ var z;
 					</section>
 
 					<section>
-						<h2>Simple Types</h2>
+						<h2>Primitive Types</h2>
 						<pre>
 							<code class="hljs javascript">
 // string
 var str = "whoo";
 // number
-var pi = 3.14;
+var π = 3.14;
+var r = 2;
 // boolean
 var js = true;
-// null
-var zero = null;
 							</code>
 						</pre>
 					</section>
@@ -168,9 +184,26 @@ var arr = [
     "pirate 2"
 ];
 // function
-var identity = function(x) {
+function identity(x) {
     return x;
 }
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Special Types</h2>
+                        <pre>
+                            <code class="hljs javascript">
+// undefined - meaning just that
+// e.g. a missing function parameter
+var undef = undefined;
+// null - not really the same as undefined.
+// it is defined, there's just no value.
+// sometimes used for initialization
+var nil = null;
+// Not a Number
+var noNumber = NaN;
                             </code>
                         </pre>
                     </section>
@@ -210,7 +243,7 @@ console.log(bacons);    // ?
                     <section>
                         <h2>Takeaway</h2>
                         <p>
-                            Define your variables before you use it, because Javascript won't complain.
+                            Declare and initialize your variables before you use it, because Javascript won't complain.
                         </p>
                     </section>
 				
@@ -219,9 +252,9 @@ console.log(bacons);    // ?
                 <section>
                     <!-- COMPARISON -->
                     <section>
-                        <h2>Comparison Fun</h2>
+                        <h1>Comparison Fun</h1>
                         <p>
-                            Simple Types will be compared by value, Complex Types by reference.
+                            Primitive Types will be compared by value, Complex Types by reference.
                         </p>
                     </section>
 
@@ -239,7 +272,7 @@ console.log(bacons);    // ?
 3 === 3 // true
 "bacon" === "bacon" // true
 "bacon" === "eggs"  // false
-
+"bacon" === 3       // false
 
 
 [] === []   // false because different objects
@@ -256,12 +289,13 @@ x === y // true because x and y point to the same object
                         <h2>Type Coercion at its best</h2>
                         <pre>
                             <code class="hljs javascript">
-0   == false    // true
-"0" == false    // true
-""  == false    // true
-[]  == false    // true
-"2" == 2        // true
+0   == false    // true : (new Boolean(0)).valueOf() => false
+"0" == false    // true : (new Number("0")).valueOf()=> 0
+""  == false    // true : (new Boolean("")).valueOf()=> false
+[]  == false    // true : (new Number([])).valueOf() => 0
+"2" == 2        // true : (new Number("2")).valueOf()=> 2
 2   == false    // false
+1   == true     // true
 
 
 {}  == false    // false
@@ -273,6 +307,16 @@ undefined == false  // false
 null == undefined   // true - stop it right there.
                             </code>
                         </pre>
+                    </section>
+
+                    <section data-background="#aa2222">
+                        <h2>Works for other comparisons</h2>
+                        <pre>
+                            <code class="hljs javascript">
+false <= true   // true
+                            </code>
+                        </pre>
+                        <img src="http://files.sharenator.com/fuuuuu-s514x389-208933.png" alt="">
                     </section>
 
                     <section>
@@ -299,7 +343,7 @@ null == undefined   // true - stop it right there.
 
                     <section>
                         <h2>Conditionals</h2>
-                        <p>When using non-booleans in conditional statements, <strong>NO</strong> Type Coercion to <code>boolean</code> happens. The value is checked for "truthiness" instead.</p>
+                        <p>When using non-booleans in conditional statements, <strong>NO</strong> Type Coercion happens. The value is checked for "truthiness" instead.</p>
                     </section>
 
                     <section>
@@ -310,6 +354,9 @@ null == undefined   // true - stop it right there.
                             <ul>
                                 <li>Zero: <code>0</code></li>
                                 <li>Empty String: <code>""</code></li>
+                                <li>Null: <code>null</code></li>
+                                <li>Undefined: <code>undefined</code></li>
+                                <li>Not a Number: <code>NaN</code></li>
                             </ul>
                         </p>
                         <p>
@@ -330,6 +377,8 @@ truthy(0)   // false
 truthy("")  // false
 truthy("0") // true
 truthy(1)   // true
+truthy(NaN) // false
+truthy(null)// false
 truthy([])  // true
 truthy({})  // true
                             </code>
@@ -339,7 +388,7 @@ truthy({})  // true
                     <section>
                         <h2>Takeaway</h2>
                         <p>
-                            Compare using <code>===</code>
+                            Always compare with <code>===</code>.
                         </p>
                     </section>
 
@@ -348,7 +397,7 @@ truthy({})  // true
                 <!-- FUNCTIONS -->
                 <section>
                     <section>
-                        <h2>Functions</h2>
+                        <h1>Functions</h1>
                         <p>AKA <blockquote>&hearts; the best thing &hearts;</blockquote></p>
                     </section>
 
@@ -461,13 +510,20 @@ second([1, 2, 3]);
                             </code>
                         </pre>
                     </section>
+
+                    <section>
+                        <h2>Takeaway</h2>
+                        <p>
+                            If you can do it with a function, you should.
+                        </p>
+                    </section>
                     
                 </section>
 
                 <!-- PROTOTYPE INHERITANCE-->
                 <section>
                     <section>
-                        <h2>Inheritance</h2>
+                        <h1>Inheritance</h1>
                         <p>
                             No classes, just object prototypes.
                         </p>
@@ -578,26 +634,10 @@ tiny.speak()    // unnamed: beep
                     <section>
                         <h2>Takeaway</h2>
                         <p>
-                            If you can do it with a function, you should.
+                            Knowing about prototypes is great, but you're usually fine without using them yourselves.
                         </p>
                     </section>
 
-                </section>
-
-                <!-- ASYNC -->
-
-                <section>
-                    <section>
-                        <h2>Async &amp; Event Loop</h2>
-                        <p>
-                            Javascript is single-threaded.
-                        </p>
-                    </section>
-                    <section>
-                        <h2>Event Loop</h2>
-                        <pre>
-                        </pre>
-                    </section>
                 </section>
 
 			</div>

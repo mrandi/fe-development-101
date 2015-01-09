@@ -1,0 +1,15 @@
+.reveal p > code,
+.reveal div > code,
+.reveal li > code {
+    background-color: white;
+    color: #333;
+    border-radius: 3px;
+    padding: 0 .25em;
+}
+
+.reveal p + p,
+.reveal p + pre,
+.reveal ol + p,
+.reveal ul + p {
+    margin-top: 1em;
+}

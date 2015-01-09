@@ -8,14 +8,14 @@
     * Function Scope
     * ES6? Modules, classes, generators...
 * Async, Event Loop, Promises
+* DOM Manipulation
+    * DOM API, jQuery
+    * Templating
 * Dependency Management
     * Bower
     * requirejs
     * browserify
     * es6 modules
-* DOM Manipulation
-    * DOM API, jQuery
-    * Templating
 * Building
     * npm
     * Grunt/Gulp
