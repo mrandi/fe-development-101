@@ -55,6 +55,35 @@
 				</section>
 
                 <section>
+                    <h2>Goal of this series</h2>
+                    <p>
+                        To not teach you everything, but a <strong>usable subset of Javascript</strong> along with <strong>basic concepts</strong> that will help you understand answers on StackOverflow.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Pro-Tip</h2>
+                    <p>
+                        Get a Node REPL:
+                        <pre>
+                            <code class="javascript">
+                                $ brew install node
+                                $ node
+                            </code>
+                        </pre>
+                    </p>
+                    <p>
+                        Execute <code>app.js</code>:
+                        <pre>
+                            <code class="javascript">
+                                $ node app.js
+                            </code>
+                        </pre>
+                    </p>
+
+                </section>
+
+                <section>
                     <h2>Lessons</h2>
                     <p>
                         <ol>
@@ -72,43 +101,11 @@
                 </section>
 
                 <section>
-                    <h2>Goal of this series</h2>
-                    <p>
-                        To not teach you everything, but a <strong>usable subset of Javascript</strong> along with <strong>basic concepts</strong> that will help you understand answers on StackOverflow.
-                    </p>
-                </section>
-
-				<section>
-					<h2>Pro-Tip</h2>
-					<p>
-						Get a Node REPL:
-						<pre>
-							<code class="javascript">
-								$ brew install node
-								$ node
-							</code>
-						</pre>
-					</p>
-					<p>
-						Execute <code>app.js</code>:
-						<pre>
-							<code class="javascript">
-								$ node app.js
-							</code>
-						</pre>
-					</p>
-
-				</section>
-
-                <section>
                     <h2>Resources</h2>
                     <p>
                         <ul>
                             <li>
                                 <a href="https://developer.mozilla.org">Mozilla Developer Network</a>
-                            </li>
-                            <li>
-                                <a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">What the fuck is the Event Loop anyway? (video)</a>
                             </li>
                             <li>
                                 <a href="http://webreflection.blogspot.de/2010/10/javascript-coercion-demystified.html">Type Coercion Rules</a>
@@ -613,6 +610,127 @@ evenFibonacciSum( 6 ); 	// = 2 + 8 = 10
                     
                 </section>
 
+                <!-- THIS -->
+                <section>
+                    <section>
+                        <h1>This</h1>
+                        <p>The five ways to call a function</p>
+                    </section>
+
+                    <section>
+                        <h2>Function context</h2>
+                        <pre>
+                            <code class="hljs javascript">
+function callMe() {
+    return this;
+}
+
+callMe();   // => window*
+// because the function isn't bound to any object
+// * only in non-strict mode, more on that later
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Object context</h2>
+                        <pre>
+                            <code class="hljs javascript">
+var me = {
+    call: function() {
+        return this;
+    }
+};
+
+me.call();  // => me
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Constructor context</h2>
+                        <pre>
+                            <code class="hljs javascript">
+function Dude() {
+    this.call = function() {
+        return this;
+    };
+
+    // if we returned an object here, ´this´ would be bound to it
+}
+
+var me = new Dude();
+me.call();  // => me
+var you = new Dude();
+you.call(); // => you
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2><code>call</code>, <code>apply</code> &amp; <code>bind</code></h2>
+                        <p>
+                            With those functions <strong>you</strong> define what <code>this</code> is.
+                        </p>
+                        <pre>
+                            <code class="hljs javascript">
+var me = new Dude();
+me.call.bind( 42 )();   // => 42
+
+[3, 2, 1].sort();   // => [1, 2, 3]
+Array.prototype.sort.call( [3, 2, 1] ); // => [1, 2, 3]
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Event Handling Context</h2>
+                        <pre>
+                            <code class="hljs javascript">
+function logThis() {
+    console.log( this );
+}
+
+document.getElementById('#log').addEventListener( 'click', logThis );
+// *click*
+
+// outputs the DOM Node with id "log"
+
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Strict Mode</h2>
+                        <pre>
+                            <code class="hljs javascript">
+function() {
+    "use strict";
+    // bla bla
+}
+                            </code>
+                        </pre>
+                        <p>
+                            <ul>
+                                <li>
+                                    <code>this</code> is not set to <code>window</code> if undefined
+                                </li>
+                                <li>
+                                    Throws more errors (a good thing)
+                                </li>
+                            </ul>
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Takeaway</h2>
+                        <p>
+                            Always <code>use strict;</code>. Be careful when using <code>this</code>.
+                        </p>
+                    </section>
+                </section>
+
+
                 <!-- PROTOTYPE INHERITANCE-->
                 <section>
                     <section>
@@ -762,6 +880,7 @@ tiny.speak()    // unnamed: beep
                 		<p>
                 			<ul>
                 				<li>Prototypes</li>
+                                <li><code>this</code></li>
                 			</ul>
                 		</p>
                 	</section>
