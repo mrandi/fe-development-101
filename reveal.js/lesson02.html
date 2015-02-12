@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>FEdev101 - Lesson 01</title>
+        <title>FEdev101 - Lesson 02</title>
 
         <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
         <meta name="author" content="Hakim El Hattab">
@@ -47,14 +47,24 @@
             <div class="slides">
 
                 <section>
-                    <section>
-                        <h2>Resources</h2>
-                        <ul>
-                            <li>
-                                <a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">What the fuck is the Event Loop anyway? (video)</a>
-                            </li>
-                        </ul>
-                    </section>
+                    <h4>Frontend Development 101</h4>
+                    <h1>Lesson 2</h1>
+                    <h3>Event Loop &amp; Async</h3>
+                    <p>
+                        <small>by <a href="mailto:nikolaus.piccolotto@zalando.de">Nikolaus Piccolotto</a></small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Resources</h2>
+                    <ul>
+                        <li>
+                            <a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">WTF is the Event Loop anyway? (video)</a>
+                        </li>
+                        <li>
+                            <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>
+                        </li>
+                    </ul>
                 </section>
 
                 <!-- ASYNC -->
@@ -101,9 +111,15 @@
                 <!-- ASYNC -->
                 <section>
                     <section>
-                        <h1>Asynchronous Operations</h1>
+                        <h1>Asynch-ronous Operations</h1>
                         <p>
-                            You know, like AJAX requests.
+                            You know, like AJAX requests. Or database queries.
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Principle</h2>
+                        <p>
+                            They do not interrupt control flow. When an async operation is finished, the "completed handler" is put into the event loop.
                         </p>
                     </section>
                     <section>
@@ -111,10 +127,140 @@
                         <p>
                             A function that's executed when a (possibly long-running) operation finished.
                         </p>
+                        <pre>
+                            <code class="hljs javascript">
+function fetchSomeData( callback ) {
+    // window.fetch
+    // https://github.com/github/fetch
+    fetch( 'pharos.zalando.net/api/roadmaps' ).then( callback );
+    // note: returns undefined!
+}
+
+// executes immediately, but no guarantees about
+// when the callback will do
+fetchSomeData( function( data ) {
+    console.log( 'fetched me some', data );   
+});
+
+// the parser just goes on and executes the next statement
+console.log( 'i am probably executed first' );
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>Nobody likes callbacks</h2>
+                        <p>
+                            They get unwieldy fast. Also, what about error handling? Or waiting for multiple things in parallel?
+                        </p>
+                        <pre>
+                            <code class="hljs javascript">
+getOneThing( function(one) {
+    getSecondThing( function(second) {
+        doTaskOne( function() {
+            doNextTask( function() {
+                // it's the
+                finalCallback();
+                // *didi diiii didi-didi*
+            });
+        });
+    });
+});
+                            </code>
+                        </pre>
+                        <small>“The callback pyramid of doom”</small>
+                    </section>
+
+                    <section>
+                        <h2>Promises (Futures)</h2>
+                        <blockquote>
+                            A proxy for a value not necessary known when the Promise is created.
+                        </blockquote>
+                    </section>
+
+                    <section>
+                        <h2>How do they even work?</h2>
+                        <p>
+                            A promise may either be
+                            <ul>
+                                <li>pending</li>
+                                <li>resolved</li>
+                                <li>rejected</li>
+                            </ul>
+                        </p>
+                        <p>
+                            Once a promise is rejected or resolved, it does not alter its state again.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Create a Promise</h2>
+                        <pre>
+                            <code class="hljs javascript">
+function doStuff() {
+    function executor( resolve, reject ) {
+        /* do stuff */
+        if ( !error ) {
+            resolve( value );
+        } else {
+            reject( error );
+        }
+    }
+    return new Promise( executor );
+}
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Promises are chainable</h2>
+                        <pre>
+                            <code class="hljs javascript">
+doStuff()
+.then( doOtherStuff )
+.then( evenMoreStuff ) // works if doOtherStuff returns a promise too
+.catch( handleError );
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>You can wait for multiple promises</h2>
+                        <pre>
+                            <code class="hljs javascript">
+Promise.all([
+    oneThing(),
+    twoThings(),
+    threeThings()
+])
+.then( doStuffWithThreeThings );
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Also maybe: Communicating Sequential Processes</h2>
+                        <p>
+                            <a href="https://github.com/ubolonton/js-csp">js-csp</a>
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Takeaway</h2>
+                        <p>
+                            Promises are the current way to handle async things. They are available natively in modern browsers except IE and Opera Mini.
+                        </p>
+                    </section>
+
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Example</h1>
+                        <img src="http://i.imgur.com/hjOkBPR.jpg" alt="">
                     </section>
                 </section>
 
-                </div>
+            </div>
 
         </div>
 
