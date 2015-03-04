@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>FEdev101 - Lesson 03</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Hakim El Hattab">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/moon.css" id="theme">
+        <link rel="stylesheet" href="css/custom.css">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+        <script>
+            if( window.location.search.match( /print-pdf/gi ) ) {
+                var link = document.createElement( 'link' );
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = 'css/print/pdf.css';
+                document.getElementsByTagName( 'head' )[0].appendChild( link );
+            }
+        </script>
+
+        
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+
+                <section>
+                    <h4>Frontend Development 101</h4>
+                    <h1>Lesson 3</h1>
+                    <h3>DOM Manipulation</h3>
+                    <p>
+                        <small>by <a href="mailto:nikolaus.piccolotto@zalando.de">Nikolaus Piccolotto</a></small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Resources</h2>
+                    <ul>
+                        <li><a href="http://api.jquery.com/">jQuery API</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>What is TEH DOM</h1>
+                        <small>(Document Object Model)</small>
+                    </section>
+
+                    <section>
+                        <h2>An API</h2>
+                        <p>
+                            A standardized way to interact with the HTML document.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>A synonyme</h2>
+                        <p>
+                            Sometimes DOM is used when referring to the HTML document.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>A tree</h2>
+                        <p>
+                            Makes sense when you think about the structure of HTML. A "DOM node" may be a <code>tbody</code> element for instance, with several <code>tr</code> as children.
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>What to do with it</h1>
+                    </section>
+
+                    <section>
+                        <h2>Access the DOM</h2>
+                        <p>
+                            It's done through the global <code>document</code> variable.
+                        </p>
+<pre>
+<code class="hljs javascript">
+// selects the element with id "#content"
+document.getElementById("content");
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Select elements</h2>
+<pre>
+<code class="hljs javascript">
+// by class, returns an array obviously
+document.getElementsByClassName("thumb");
+// by tag, also an array
+document.getElementsByTagName("p");
+// by tag and namespace, useful when dealing with SVG
+document.getElementsByTagNameNS( svgNS, "text" );
+
+// by css selector
+document.querySelectorAll( "p > img" );
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Create elements</h2>
+<pre>
+<code class="hljs javascript">
+var h1 = document.createElement("h1");
+h1.textContent = "HELLO WORLD";
+document.body.appendChild( h1 );
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Modify elements</h2>
+<pre>
+<code class="hljs javascript">
+var title = document.querySelector("h1.headline");
+title.textContent = "Putin retires!";
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Delete elements</h2>
+<pre>
+<code class="hljs javascript">
+// siteNotice has to be a direct descendant of content!
+document
+.getElementById("content")
+.removeChild(document.getElementById("siteNotice"));
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Add behavior</h2>
+<pre>
+<code class="hljs javascript">
+document
+.getElementById("content")
+.addEventListener( "click", function() {
+    // srsly tho, never use alert. horrible ux.
+    alert("YOU TOUCHED MAH BELLY"); 
+});
+</code>
+</pre>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Do not use any of this.</h1>
+                </section>
+                    
+                <section>
+                    <section>
+                        <h1>Because it sucks</h1>
+                    </section>
+
+                    <section>
+                        <h2>No Arrays</h2>
+                        <p>
+                            Only Array-like objects that have a <code>length</code> property, but are missing all the good stuff from Array.prototype like <code>map</code>.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Tedious to use</h2>
+                        <p>
+                            E.g.: <code>removeChild</code> only removes on child at a time, need to build a loop if there are more.
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Browser inconsistencies/bugs</h2>
+                        <p>
+                            They cook with water, too. Do not even think that you can support IE8 and modern Chrome with the same DOM API.
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>jQuery* to the rescue</h1>
+                        <small>* or comparable library (<a href="https://developers.google.com/closure/library/docs/gettingstarted">Closure</a> maybe)</small>
+                    </section>
+
+                    <section>
+                        <h2>Why</h2>
+                        <ul>
+                            <li>Easy to use API</li>
+                            <li>Abstracts away the browser</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Dollar</h2>
+                        <p>
+                            By default jQuery exports the global variable <code>$</code> after it was loaded. 
+                        </p>
+                        <p>
+                            <small>
+                                It is so common that the Chrome Developer Tools have <code>$</code> as a shorthand for <code>document.querySelectorAll</code>.
+                            </small>
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2>Select elements</h2>
+<pre><code class="hljs javascript">
+// $( mahCssSelector )
+$(".my-class")
+$("#my-id")
+$("[my-attr]")
+//...
+</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Create elements</h2>
+<pre><code class="hljs javascript">
+// naming convention:
+// everything that is a jquery selection starts with $
+var $el = $("&lt;div /&gt;");
+$el.text("OH HI THERE");
+$(document.body).prepend( $el );
+</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Modify elements</h2>
+<pre>
+<code class="hljs javascript">
+// sets style attribute
+$el.css({
+    color: '#fff',
+    background: 'red'
+});
+
+$el.toggleClass("is-enabled");
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Add behavior</h2>
+<pre>
+<code class="hljs javascript">
+// $el["event"]
+
+$el.hover(function() {
+    $( this ).css({
+        opacity: 0.75
+    });
+});
+
+$el.toggle( stateOneFunction, stateTwoFunction );
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Traverse elements</h2>
+<pre>
+<code class="hljs javascript">
+$el
+    .children()
+    .filter( ".only-this-class" )
+    .not( ".but-not-this-one" )
+    .last();
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Delete elements</h2>
+<pre>
+<code class="hljs javascript">
+$el.remove();
+</code>
+</pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>BUT: Try not to build your UI this way</h1>
+                    </section>
+
+                    <section>
+                        <h2>It's hard to understand</h2>
+<pre>
+<code class="hljs javascript">
+var $canvas = $( canvas.getContainer() ),
+    $controls = $( '<div></div>' ),
+    $zoomOut = $( '<div><i class="fa fa-lg fa-minus"></i></div>' ),
+    $zoomIn = $( '<div><i class="fa fa-lg fa-plus"></i></div>' ),
+    $zoomFit= $( '<div><i class="fa fa-lg fa-crosshairs"></i></div>' ),
+    zlevel = 1,
+    zstep = 0.2;
+
+    $canvas.append( $controls );
+    $controls.append( $zoomIn );
+    $controls.append( $zoomOut );
+    $controls.append( $zoomFit );
+
+    $controls.addClass( 'bjs-zoom-controls' );
+    $zoomOut.addClass( 'bjs-zoom bjs-zoom-out' );
+    $zoomIn.addClass( 'bjs-zoom bjs-zoom-in' );
+    $zoomFit.addClass( 'bjs-zoom bjs-zoom-fit' );
+
+    $zoomOut.attr( 'title', 'Zoom out' );
+    $zoomIn.attr( 'title', 'Zoom in' );
+    $zoomFit.attr( 'title', 'Fit to viewport' );
+
+    // update our zoom level on viewbox change
+    eventBus.on( 'canvas.viewbox.changed', function( evt ) {
+        zlevel = evt.viewbox.scale;
+    });
+
+    // define click handlers for controls
+    $zoomFit.on( 'click', function() {
+        canvas.zoom( 'fit-viewport' );
+    });
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Instead: Use template engines</h2>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Template Engines</h1>
+                        <small>mustache, handlebars, hogan, lodash …</small>
+                    </section>
+
+                    <section>
+                        <h2>Input: HTML String with variables</h2>
+                        <p>In handlebars variables are denoted with double curly brackets.</p>
+<pre>
+<code class="hljs javascript">
+// hint: you don't have to do this inline, just for simplicity
+var src = '<div class="customer"><h1>{{customer.name}}</h1><p>{{customer.bio}}</p></div>';
+var template = Handlebars.compile( src );
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Output: A function that transforms an object into a HTML string</h2>
+<pre>
+<code class="hljs javascript">
+var html = template({
+    customer: {
+        name: 'nikolaus',
+        bio: 'grew up somewhere'
+    }
+});
+// insert it with $element.append( html ) or so
+</code>
+</pre>
+                    </section>
+
+                    <section>
+                        <h2>Takeaway</h2>
+                        <p>
+                            Build your UI declaratively, not imperatively.
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Questions / The End</h1>
+                    </section>        
+                </section>
+                
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: 'blood', // available themes are in /css/theme
+                transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
