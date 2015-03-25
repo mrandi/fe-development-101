@@ -76,16 +76,16 @@
                     </section>
 
                     <section>
-                        <h2>A synonyme</h2>
+                        <h2>A tree</h2>
                         <p>
-                            Sometimes DOM is used when referring to the HTML document.
+                            Makes sense when you think about the structure of HTML. A "DOM node" may be a <code>tbody</code> element for instance, with several <code>tr</code> as children.
                         </p>
                     </section>
 
                     <section>
-                        <h2>A tree</h2>
+                        <h2>Why do you need it?</h2>
                         <p>
-                            Makes sense when you think about the structure of HTML. A "DOM node" may be a <code>tbody</code> element for instance, with several <code>tr</code> as children.
+                            Because today's web isn't static. Animations, notifications, new information... Lots of stuff happens after the page loaded. So we need to modify the DOM.
                         </p>
                     </section>
                 </section>
@@ -185,8 +185,15 @@ document
                     <section>
                         <h2>No Arrays</h2>
                         <p>
-                            Only Array-like objects that have a <code>length</code> property, but are missing all the good stuff from Array.prototype like <code>map</code>.
+                            Only Array-like objects (NodeList, HTMLCollection) that have a <code>length</code> property, but are missing all the good stuff from Array.prototype like <code>map</code>.
                         </p>
+<pre>
+<code class="hljs javascript">
+document.getElementsByTagName("p").map( function() {});
+
+// Error: undefined is not a function
+</code>
+</pre>
                     </section>
 
                     <section>
